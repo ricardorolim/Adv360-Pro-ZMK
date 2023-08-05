@@ -4,6 +4,51 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/backlight.h>
 
+#define NAVI_RIGHT 1
+#define NAVI_LEFT 2
+#define SYMS 3
+#define NUMS 4
+#define FUNC 5
+#define MOD  6
+#define SWAPPER 7
+
+#define RIGHT_HOME_ROW 42 43 44 45
+#define TMUX LA(SPACE)
+
+/ {
+    macros {
+        tcopy: tmux_copy_mode {
+            label = "TMUX_COPY_MODE";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_tap &kp TMUX &kp LBKT>
+                ;
+        };
+
+        swapper: enter_window_swapper {
+            label = "ENTER_WINDOW_SWAPPER";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_press &mo SWAPPER &kp LGUI>
+                , <&macro_tap &kp TAB>
+                ;
+        };
+
+        exit: exit_window_swapper {
+            label = "EXIT_WINDOW_SWAPPER";
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings
+                = <&macro_release &kp LGUI &mo SWAPPER>
+                ;
+        };
+
+    };
+};
+
+
 / {
     behaviors {
       #include "macros.dtsi"
@@ -13,42 +58,142 @@
           label = "HOMEROW_MODS";
           #binding-cells = <2>;
           tapping-term-ms = <200>;
-          quick_tap_ms = <175>;
+          quick-tap-ms = <175>;
           flavor = "tap-preferred";
           bindings = <&kp>, <&kp>;
       };
-    };
 
+      lm: layer_mod {
+          compatible = "zmk,behavior-hold-tap";
+          label = "LAYER_HOLD_TAP";
+          #binding-cells = <2>;
+          tapping-term-ms = <200>;
+          quick-tap-ms = <200>;
+          flavor = "tap-preferred";
+          bindings = <&mo>, <&kp>;
+      };
+
+      hmr: homerow_mod_right {
+          compatible = "zmk,behavior-hold-tap";
+          label = "HOM_MOD_RIGHT";
+          #binding-cells = <2>;
+          tapping-term-ms = <150>;
+          quick-tap-ms = <200>;
+          global-quick-tap;
+          flavor = "tap-preferred";
+          bindings = <&mo>, <&kp>;
+          hold-trigger-key-positions = <RIGHT_HOME_ROW>;
+      };
+
+      mtq: mod_tap_quick_tap {
+          compatible = "zmk,behavior-hold-tap";
+          label = "MOD_TAP_WITH_QUICK_TAP";
+          #binding-cells = <2>;
+          tapping-term-ms = <200>;
+          quick-tap-ms = <175>;
+          flavor = "hold-preferred";
+          bindings = <&kp>, <&kp>;
+      };
+
+      space_ul: space_underline {
+          compatible = "zmk,behavior-mod-morph";
+          label = "SPACE_UNDERLINE";
+          #binding-cells = <0>;
+          bindings = <&kp SPACE>, <&kp LS(MINUS)>;
+          mods = <(MOD_LSFT)>;
+      };
+
+      navi_left: navi_left {
+          compatible = "zmk,behavior-mod-morph";
+          label = "NAVI_LEFT";
+          #binding-cells = <0>;
+          bindings = <&lm NAVI_LEFT BSPC>, <&kp DEL>;
+          mods = <(MOD_LSFT|MOD_RSFT)>;
+      };
+
+      navi_right: navi_right {
+          compatible = "zmk,behavior-mod-morph";
+          label = "NAVI_RIGHT";
+          #binding-cells = <0>;
+          bindings = <&hmr NAVI_RIGHT SPACE>, <&kp UNDER>;
+          mods = <(MOD_LSFT|MOD_RSFT)>;
+      };
+
+      skq: sticky_key_quick_release {
+          compatible = "zmk,behavior-sticky-key";
+          label = "STICKY_KEY_QUICK_RELEASE";
+          #binding-cells = <1>;
+          bindings = <&kp>;
+          release-after-ms = <1000>;
+          quick-release;
+          ignore-modifiers;
+      };
+
+    };
+ 
   keymap {
     compatible = "zmk,keymap";
 
     default_layer {
       bindings = <
-        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &tog 1                                                           &mo 3 &kp N6 &kp N7 &kp N8    &kp N9   &kp N0   &kp MINUS
-        &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &none &kp Y  &kp U  &kp I     &kp O    &kp P    &kp BSLH
-        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL           &none &kp H  &kp J  &kp K     &kp L    &kp SEMI &kp SQT
-        &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp HOME &kp PG_UP                           &kp N  &kp M  &kp COMMA &kp DOT  &kp FSLH &kp RSHFT
-        &mo 2     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END  &kp PG_DN &kp ENTER &kp SPACE              &kp UP &kp DOWN  &kp LBKT &kp RBKT &mo 2
+        &kp GRAVE      &kp N1 &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                             &mo MOD &kp N6 &kp N7   &kp N8    &kp N9    &kp N0    &kp MINUS
+        &kp TAB        &kp Q  &kp W      &kp F     &kp P      &kp B  &none                                                                                 &none   &kp J  &kp L    &kp U     &kp Y     &kp SEMI  &kp BSLH
+        &mtq LCTRL ESC &kp A  &kp R      &kp S     &kp T      &kp G  &none                            &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N    &kp E     &kp I     &kp O     &hm RCTRL SQT
+        &mt LSHFT TMUX &kp Z  &kp X      &kp C     &kp D      &kp V                                             &mo FUNC  &mo FUNC                                        &kp K  &kp H    &kp COMMA &kp DOT   &kp FSLH  &mt RSHFT TMUX
+	    &mo SYMS       &none  &caps_word &none     &mo SYMS                             &navi_left &lt SYMS DEL &kp LALT  &kp LALT &lt SYMS ENTER &navi_right             &mo SYMS &kp MINUS &kp EQUAL &none     &mo SYMS
       >;
     };
+
+    navi_right {
+      bindings = <
+        &trans &trans &trans &trans &trans &trans &trans                                           &trans &trans &trans     &trans     &trans    &trans    &trans
+        &trans &trans &trans &trans &trans &trans &trans                                           &trans &trans &trans     &trans     &trans    &trans    &trans
+        &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans        &trans &trans &skq RCTRL &skq RSHFT &skq LALT &skq RGUI &trans
+        &trans &trans &trans &trans &trans &trans                      &trans &trans                      &trans &trans     &trans     &trans    &trans    &trans
+        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans               &trans     &trans     &trans    &trans    &trans
+      >;
+    };
+
+    navi_left {
+      bindings = <
+        &trans &trans    &trans    &trans     &trans     &trans    &trans                                                  &trans &trans   &trans    &trans   &trans    &trans  &trans
+        &trans &trans    &trans    &kp LG(F)  &swapper   &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
+        &trans &skq LGUI &skq LALT &skq LSHFT &skq LCTRL &trans    &kp LG(LS(N4))   &trans &trans &trans &trans            &trans &kp BSPC &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &trans
+        &trans &kp LG(Z) &kp LG(X) &kp LG(C)  &kp LG(V)  &kp TMUX                          &trans &trans                          &trans   &kp HOME  &kp END  &kp BSPC  &trans  &trans
+        &trans &trans    &trans    &trans     &trans                          &trans &trans &trans &trans &trans &kp MINUS                  &trans    &trans   &trans    &trans  &trans
+      >;
+    };
+
+    symbols {
+      bindings = <
+        &none    &none     &none     &none     &none     &none    &trans                                                           &trans  &none      &none      &none    &none    &none     &none
+        &none    &kp SQT   &kp LT    &kp GT    &kp DQT   &kp DOT  &trans                                                           &trans  &kp AMPS   &kp TILDE  &kp LBKT &kp RBKT &kp PRCNT &none
+        &none    &kp EXCL  &kp MINUS &kp PLUS  &kp EQUAL &kp HASH &none         &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL             &trans  &kp PIPE   &kp COLON  &kp LPAR &kp RPAR &kp QMARK &none
+        &none    &kp CARET &kp FSLH  &kp STAR  &kp BSLH  &none                           &kp HOME  &kp PG_UP                                &kp TILDE &kp DLLR   &kp LBRC &kp RBRC &kp AT    &none
+        &none    &none     &none     &none     &none                       &none &none   &none     &none     &none     &kp UNDER                      &none     &none      &none   &none     &none
+      >;
+    };
+
     keypad {
       bindings = <
-        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &trans                                                           &mo 3 &kp N6 &kp KP_NUM &kp KP_EQUAL &kp KP_DIVIDE &kp KP_MULTIPLY &kp MINUS
-        &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &none &kp Y  &kp KP_N7  &kp KP_N8    &kp KP_N9     &kp KP_MINUS    &kp BSLH
-        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL           &none &kp H  &kp KP_N4  &kp KP_N5    &kp KP_N6     &kp KP_PLUS     &kp SQT
-        &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp HOME &kp PG_UP                           &kp N  &kp KP_N1  &kp KP_N2    &kp KP_N3     &kp KP_ENTER    &kp RSHFT
-        &mo 2     &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END  &kp PG_DN &kp ENTER &kp KP_N0              &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &mo 2
+        &kp EQUAL &kp N1    &kp N2   &kp N3   &kp N4     &kp N5 &trans                                                           &mo MOD &kp N6 &kp KP_NUM &kp KP_EQUAL &kp KP_DIVIDE &kp KP_MULTIPLY &kp MINUS
+        &kp TAB   &kp Q     &kp W    &kp E    &kp R      &kp T  &none                                                            &none   &kp Y  &kp KP_N7  &kp KP_N8    &kp KP_N9     &kp KP_MINUS    &kp BSLH
+        &kp ESC   &kp A     &kp S    &kp D    &kp F      &kp G  &none           &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL           &none   &kp H  &kp KP_N4  &kp KP_N5    &kp KP_N6     &kp KP_PLUS     &kp SQT
+        &kp LSHFT &kp Z     &kp X    &kp C    &kp V      &kp B                            &kp HOME &kp PG_UP                             &kp N  &kp KP_N1  &kp KP_N2    &kp KP_N3     &kp KP_ENTER    &kp RSHFT
+        &mo FUNC  &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END  &kp PG_DN &kp ENTER &kp KP_N0                &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &mo FUNC
       >;
     };
+
     fn {
       bindings = <
-        &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &tog 1                                           &mo 3 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12
-        &trans &trans &trans &trans &trans &trans  &none                                           &none &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans &trans  &none        &trans &trans &trans &trans        &none &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans &trans                      &trans &trans                     &trans &trans &trans &trans  &trans  &trans
-        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans              &trans &trans &trans  &trans  &trans
+        &kp F11 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &tog NUMS                                       &mo MOD &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F12
+        &trans &trans &trans &trans &trans &trans  &none                                           &none   &trans &trans &trans &trans &trans  &trans
+        &trans &trans &trans &trans &trans &trans  &none        &trans &trans &trans &trans        &none   &trans &trans &trans &trans &trans  &trans
+        &trans &trans &trans &trans &trans &trans                      &trans &trans                       &trans &trans &trans &trans &trans  &trans
+        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans                &trans &trans &trans &trans  &trans
       >;
     };
+
     mod {
       bindings = <
         &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                     &trans                 &none        &none        &none        &none &none &none
@@ -58,5 +203,16 @@
         &none &none        &none        &none        &none                                       &none &none &none &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none &none &none
       >;
     };
+
+    window_swapper {
+      bindings = <
+        &exit &exit &exit &exit       &exit   &exit &exit                                        &exit &exit &exit    &exit    &exit     &exit &exit 
+        &exit &exit &exit &kp LS(TAB) &kp TAB &exit &exit                                        &none &exit &exit    &kp UP   &exit     &exit &exit
+        &exit &exit &exit &kp S       &exit   &exit &exit        &exit &exit &exit &exit         &none &exit &kp LEFT &kp DOWN &kp RIGHT &exit &exit
+        &exit &exit &exit &exit       &exit   &exit                    &exit &exit                     &exit &exit    &exit    &exit     &exit &exit
+        &exit &exit &exit &exit       &exit                &exit &exit &exit &exit &exit &exit               &exit    &exit    &exit     &exit &exit
+      >;
+    };
+
   };
 };
