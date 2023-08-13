@@ -129,6 +129,38 @@
           ignore-modifiers;
       };
 
+      clp: comma_left_parens {
+          compatible = "zmk,behavior-mod-morph";
+          label = "COMMA_LEFT_PARENS";
+          #binding-cells = <0>;
+          bindings = <&kp KP_COMMA>, <&kp LPAR>;
+          mods = <(MOD_LSFT|MOD_RSFT)>;
+      };
+
+      drp: dot_right_parens {
+          compatible = "zmk,behavior-mod-morph";
+          label = "DOT_RIGHT_PARENS";
+          #binding-cells = <0>;
+          bindings = <&kp KP_DOT>, <&kp RPAR>;
+          mods = <(MOD_LSFT|MOD_RSFT)>;
+      };
+
+      n9l: n9_less_than {
+          compatible = "zmk,behavior-mod-morph";
+          label = "N9_LESS_THAN";
+          #binding-cells = <0>;
+          bindings = <&kp KP_N9>, <&kp LT>;
+          mods = <(MOD_LSFT|MOD_RSFT)>;
+      };
+
+      n0g: n0_greater_than {
+          compatible = "zmk,behavior-mod-morph";
+          label = "N0_GREATER_THAN";
+          #binding-cells = <0>;
+          bindings = <&kp KP_N0>, <&kp GT>;
+          mods = <(MOD_LSFT|MOD_RSFT)>;
+      };
+
     };
  
   keymap {
@@ -136,11 +168,11 @@
 
     default_layer {
       bindings = <
-        &kp GRAVE      &kp N1 &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                             &mo MOD &kp N6 &kp N7   &kp N8    &kp N9    &kp N0    &kp MINUS
-        &kp TAB        &kp Q  &kp W      &kp F     &kp P      &kp B  &none                                                                                 &none   &kp J  &kp L    &kp U     &kp Y     &kp SEMI  &kp BSLH
-        &mtq LCTRL ESC &kp A  &kp R      &kp S     &kp T      &kp G  &none                            &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N    &kp E     &kp I     &kp O     &hm RCTRL SQT
-        &mt LSHFT TMUX &kp Z  &kp X      &kp C     &kp D      &kp V                                             &mo FUNC  &mo FUNC                                        &kp K  &kp H    &kp COMMA &kp DOT   &kp FSLH  &mt RSHFT TMUX
-	    &mo SYMS       &none  &caps_word &none     &mo SYMS                             &navi_left &lt SYMS DEL &kp LALT  &kp LALT &lt SYMS ENTER &navi_right             &mo SYMS &kp MINUS &kp EQUAL &none     &mo SYMS
+        &kp MINUS      &kp N1       &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                    &mo MOD &kp N6 &kp N7    &kp N8    &n9l      &n0g         &kp EQUAL
+        &kp TAB        &kp Q        &kp W      &kp F     &kp P      &kp B  &none                                                                        &none   &kp J  &kp L     &kp U     &kp Y     &kp SEMI     &kp BSLH
+        &mtq LCTRL ESC &kp A        &kp R      &kp S     &kp T      &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
+        &mt LSHFT TMUX &kp Z        &kp X      &kp C     &kp D      &kp V                                    &mo FUNC  &mo FUNC                                 &kp K  &kp H     &clp      &drp      &kp FSLH     &mt RSHFT TMUX
+	    &mo SYMS       &kp KP_PLUS  &caps_word &kp GRAVE &kp MINUS                       &navi_left &mo SYMS &kp LALT  &kp LALT &lt SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
       >;
     };
 
@@ -166,11 +198,11 @@
 
     symbols {
       bindings = <
-        &none    &none     &none     &none     &none     &none    &trans                                                           &trans  &none      &none      &none    &none    &none     &none
-        &none    &kp SQT   &kp LT    &kp GT    &kp DQT   &kp DOT  &trans                                                           &trans  &kp AMPS   &kp TILDE  &kp LBKT &kp RBKT &kp PRCNT &none
-        &none    &kp EXCL  &kp MINUS &kp PLUS  &kp EQUAL &kp HASH &none         &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL             &trans  &kp PIPE   &kp COLON  &kp LPAR &kp RPAR &kp QMARK &none
-        &none    &kp CARET &kp FSLH  &kp STAR  &kp BSLH  &none                           &kp HOME  &kp PG_UP                                &kp TILDE &kp DLLR   &kp LBRC &kp RBRC &kp AT    &none
-        &none    &none     &none     &none     &none                       &none &none   &none     &none     &none     &kp UNDER                      &none     &none      &none   &none     &none
+        &none    &none     &none     &none     &none     &none    &trans                                                           &trans  &none     &none     &none     &none    &none     &none
+        &none    &kp SQT   &kp LT    &kp GT    &kp DQT   &kp DOT  &trans                                                           &trans  &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT &kp PRCNT &none
+        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH &none         &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL     &trans  &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &none
+        &none    &kp CARET &kp FSLH  &kp STAR  &kp BSLH  &kp GRAVE                       &kp HOME  &kp PG_UP                               &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC &kp AT    &none
+        &none    &none     &none     &none     &none                       &none &none   &none     &none   &kp ENTER &kp SPACE                       &none     &none     &none    &none     &none
       >;
     };
 
@@ -188,7 +220,7 @@
       bindings = <
         &kp F11 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &tog NUMS                                       &mo MOD &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F12
         &trans &trans &trans &trans &trans &trans  &none                                           &none   &trans &trans &trans &trans &trans  &trans
-        &trans &trans &trans &trans &trans &trans  &none        &trans &trans &trans &trans        &none   &trans &trans &trans &trans &trans  &trans
+        &trans &trans &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &trans  &none        &trans &trans &trans &trans        &none   &trans &trans &trans &trans &trans  &trans
         &trans &trans &trans &trans &trans &trans                      &trans &trans                       &trans &trans &trans &trans &trans  &trans
         &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans                &trans &trans &trans &trans  &trans
       >;
