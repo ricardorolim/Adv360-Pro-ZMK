@@ -75,7 +75,7 @@
 
       hmr: homerow_mod_right {
           compatible = "zmk,behavior-hold-tap";
-          label = "HOM_MOD_RIGHT";
+          label = "HOMEROW_MOD_RIGHT";
           #binding-cells = <2>;
           tapping-term-ms = <150>;
           quick-tap-ms = <200>;
@@ -93,6 +93,16 @@
           quick-tap-ms = <175>;
           flavor = "hold-preferred";
           bindings = <&kp>, <&kp>;
+      };
+
+      lh: layer_hold_preferred {
+          compatible = "zmk,behavior-hold-tap";
+          label = "LAYER_HOLD_PREFERRED";
+          #binding-cells = <2>;
+          tapping-term-ms = <200>;
+          quick-tap-ms = <200>;
+          flavor = "hold-preferred";
+          bindings = <&mo>, <&kp>;
       };
 
       space_ul: space_underline {
@@ -133,7 +143,7 @@
           compatible = "zmk,behavior-mod-morph";
           label = "COMMA_LEFT_PARENS";
           #binding-cells = <0>;
-          bindings = <&kp KP_COMMA>, <&kp LPAR>;
+          bindings = <&kp COMMA>, <&kp LPAR>;
           mods = <(MOD_LSFT|MOD_RSFT)>;
       };
 
@@ -160,9 +170,8 @@
           bindings = <&kp KP_N0>, <&kp GT>;
           mods = <(MOD_LSFT|MOD_RSFT)>;
       };
+  };
 
-    };
- 
   keymap {
     compatible = "zmk,keymap";
 
@@ -172,7 +181,7 @@
         &kp TAB        &kp Q        &kp W      &kp F     &kp P      &kp B  &none                                                                        &none   &kp J  &kp L     &kp U     &kp Y     &kp SEMI     &kp BSLH
         &mtq LCTRL ESC &kp A        &kp R      &kp S     &kp T      &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
         &mt LSHFT TMUX &kp Z        &kp X      &kp C     &kp D      &kp V                                    &mo FUNC  &mo FUNC                                 &kp K  &kp H     &clp      &drp      &kp FSLH     &mt RSHFT TMUX
-	    &mo SYMS       &kp KP_PLUS  &caps_word &kp GRAVE &kp MINUS                       &navi_left &mo SYMS &kp LALT  &kp LALT &lt SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
+	    &mo SYMS       &kp KP_PLUS  &caps_word &kp GRAVE &kp MINUS                       &navi_left &mo SYMS &kp LALT  &kp LALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT     &kp KP_EQUAL &mo SYMS
       >;
     };
 
@@ -192,16 +201,16 @@
         &trans &trans    &trans    &kp LG(F)  &swapper   &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
         &trans &skq LGUI &skq LALT &skq LSHFT &skq LCTRL &trans    &kp LG(LS(N4))   &trans &trans &trans &trans            &trans &kp BSPC &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &trans
         &trans &kp LG(Z) &kp LG(X) &kp LG(C)  &kp LG(V)  &kp TMUX                          &trans &trans                          &trans   &kp HOME  &kp END  &kp BSPC  &trans  &trans
-        &trans &trans    &trans    &trans     &trans                          &trans &trans &trans &trans &trans &kp MINUS                  &trans    &trans   &trans    &trans  &trans
+        &trans &trans    &trans    &trans     &kp LG(TAB)                    &trans &trans &trans &trans &trans &kp MINUS                  &trans    &trans   &trans    &trans  &trans
       >;
     };
 
     symbols {
       bindings = <
         &none    &none     &none     &none     &none     &none    &trans                                                           &trans  &none     &none     &none     &none    &none     &none
-        &none    &kp SQT   &kp LT    &kp GT    &kp DQT   &kp DOT  &trans                                                           &trans  &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT &kp PRCNT &none
-        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH &none         &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL     &trans  &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &none
-        &none    &kp CARET &kp FSLH  &kp STAR  &kp BSLH  &kp GRAVE                       &kp HOME  &kp PG_UP                               &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC &kp AT    &none
+        &none    &kp DQT   &kp LT    &kp GT    &kp SQT   &kp DOT  &trans                                                           &trans  &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT &kp PRCNT &none
+        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH &none         &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL     &trans  &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &trans
+        &trans   &kp CARET &kp FSLH  &kp STAR  &kp BSLH  &kp GRAVE                       &kp HOME  &kp PG_UP                               &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC &kp AT    &none
         &none    &none     &none     &none     &none                       &none &none   &none     &none   &kp ENTER &kp SPACE                       &none     &none     &none    &none     &none
       >;
     };
