@@ -175,15 +175,29 @@
   keymap {
     compatible = "zmk,keymap";
 
+    // ----------------------------------------------------------------------------------------------------------------------------------------
+    // |  -       |  1  |  2  |  3  |  4  |  5  | NUMS |                                           | MOD  |  6  |  7  |  8  |  9  |  0  |  =  |
+    // |  TAB     |  Q  |  W  |  F  |  P  |  B  | NONE |                                           | NONE |  J  |  L  |  U  |  Y  |  :  |  \  |
+    // | ESC/CTRL |  A  |  R  |  S  |  T  |  V  | NONE |      | LGUI | LCRTL | RCTRL | RGUI |      | NONE |  M  |  N  |  E  |  I  |  O  |  "  |
+    // | SHFT     |  Z  |  X  |  C  |  D  |  V  |                    | FUNC  | FUNC  |                    |  K  |  H  |  ,  |  .  |  /  | SHFT|
+    // | SYMS     |  +  | CAPS|  `  |  -  |            | NAVI | SYMS | LALT  | RALT  | SYMS | NAVI |            |  =  |  [  |  ]  |  =  | SYMS|
+
     default_layer {
       bindings = <
         &kp MINUS      &kp N1       &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                    &mo MOD &kp N6 &kp N7    &kp N8    &n9l      &n0g         &kp EQUAL
         &kp TAB        &kp Q        &kp W      &kp F     &kp P      &kp B  &none                                                                        &none   &kp J  &kp L     &kp U     &kp Y     &kp SEMI     &kp BSLH
         &mtq LCTRL ESC &kp A        &kp R      &kp S     &kp T      &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
         &mt LSHFT TMUX &kp Z        &kp X      &kp C     &kp D      &kp V                                    &mo FUNC  &mo FUNC                                 &kp K  &kp H     &clp      &drp      &kp FSLH     &mt RSHFT TMUX
-	    &mo SYMS       &kp KP_PLUS  &caps_word &kp GRAVE &kp MINUS                       &navi_left &mo SYMS &kp LALT  &kp LALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT     &kp KP_EQUAL &mo SYMS
+	&mo SYMS       &kp KP_PLUS  &caps_word &kp GRAVE &kp MINUS                       &navi_left &mo SYMS &kp LALT  &kp RALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
       >;
     };
+
+    // ---------------------------------------------------------------------------------------------------------------------------------
+    // |          |     |     |     |     |     |      |                                           |      |     |     |     |    |    |     |
+    // |          |     |     |     |     |     |      |                                           |      |     |     |     |    |    |     |
+    // |          |     |     |     |     |     |      |      |      |       |       |      |      |      |     |RCTRL|RSHFT|LALT|RGUI|     |
+    // |          |     |     |     |     |     |                    |       |       |                    |     |     |     |    |    |     |
+    // |          |     |     |     |     |                   |      |       |       |      |                   |     |     |    |    |     |
 
     navi_right {
       bindings = <
@@ -195,6 +209,13 @@
       >;
     };
 
+    // --------------------------------------------------------------------------------------------------------------------------------
+    // |          |        |        |        |         |       |            |                                             |      |       |       |      |       |     |     |
+    // |          |        |        | LG(F)  | SWAPPER | GRAVE |            |                                             |      | TCOPY | PG_UP | UP   | PG_DN |     |     |
+    // |          | LGUI   | LALT   | LSHFT  | LCTRL   |       | LG(LS(N4)) |      |       |       |       |       |      |      |       | LEFT  | DOWN | RIGHT | DEL |     |
+    // |          | LGUI+Z | LGUI+X | LGUI+C | LGUI+V  | TMUX  |                           |       |       |                     |       | HOME  | END  | BKSP  |     |     |
+    // |          |        |        |        | LGUI+TAB|                           | [NAV] |       |       |       |                     |       |      |       |     |     |
+
     navi_left {
       bindings = <
         &trans &trans    &trans    &trans     &trans     &trans    &trans                                                  &trans &trans   &trans    &trans   &trans    &trans  &trans
@@ -205,13 +226,20 @@
       >;
     };
 
+    // ---------------------------------------------------------------------------------------------------------------------------------
+    // |     |     |     |     |     |     |      |                                           |      |     |     |     |     |     |     |
+    // |     |  "  |  <  |  >  |  '  |  .  |      |                                           |      |  &  |  ~  |  [  |  ]  |  %  |     |
+    // |     |  !  |  -  |  +  |  =  |  #  |      |      |      |       |       |      |      |      |  |  |  :  |  (  |  )  |  ?  |     |
+    // |     |  ^  |  /  |  *  |  \  |  `  |                    |       |       |                    |  ~  |  $  |  {  |  }  |  @  |     |
+    // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
+
     symbols {
       bindings = <
-        &none    &none     &none     &none     &none     &none    &trans                                                           &trans  &none     &none     &none     &none    &none     &none
-        &none    &kp DQT   &kp LT    &kp GT    &kp SQT   &kp DOT  &trans                                                           &trans  &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT &kp PRCNT &none
-        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH &none         &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL     &trans  &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &trans
-        &trans   &kp CARET &kp FSLH  &kp STAR  &kp BSLH  &kp GRAVE                       &kp HOME  &kp PG_UP                               &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC &kp AT    &none
-        &none    &none     &none     &none     &none                       &none &none   &none     &none   &kp ENTER &kp SPACE                       &none     &none     &none    &none     &none
+        &none    &none     &none        &none       &none        &none     &trans                                                                  &trans &none     &none     &none     &none    &none     &none
+        &none    &kp DQT   &kp LT       &kp GT      &kp SQT      &kp DOT   &trans                                                                  &trans &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT &kp PRCNT &none
+        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH  &none        &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL &trans              &trans &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &trans
+        &trans   &kp CARET &kp FSLH     &kp STAR    &kp BSLH     &kp GRAVE                                 &kp HOME  &kp PG_UP                            &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC &kp AT    &none
+        &none    &kp LGUI  &kp LALT     &kp LSHFT   &kp LCTRL                           &none     &none    &none     &none     &kp ENTER &kp SPACE                  &kp RCTRL &kp RSHFT &kp RALT &kp RGUI  &none
       >;
     };
 
