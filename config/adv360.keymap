@@ -52,6 +52,15 @@
 / {
     behaviors {
       #include "macros.dtsi"
+      #include "version.dtsi"
+      #ifndef VERSION_MACRO
+      macro_ver: macro_ver {
+        compatible = "zmk,behavior-macro";
+        label = "macro_version";
+        #binding-cells = <0>;
+        bindings = <&kp RET>;
+      };
+      #endif
 
       hm: homerow_mods {
           compatible = "zmk,behavior-hold-tap";
@@ -235,11 +244,11 @@
 
     symbols {
       bindings = <
-        &none    &none     &none        &none       &none        &none     &trans                                                                  &trans &none     &none     &none     &none    &none     &none
-        &none    &kp DQT   &kp LT       &kp GT      &kp SQT      &kp DOT   &trans                                                                  &trans &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT &kp PRCNT &none
-        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH  &none        &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL &trans              &trans &kp PIPE  &kp COLON &kp LPAR  &kp RPAR &kp QMARK &trans
-        &trans   &kp CARET &kp FSLH     &kp STAR    &kp BSLH     &kp GRAVE                                 &kp HOME  &kp PG_UP                            &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC &kp AT    &none
-        &none    &kp LGUI  &kp LALT     &kp LSHFT   &kp LCTRL                           &none     &none    &none     &none     &kp ENTER &kp SPACE                  &kp RCTRL &kp RSHFT &kp RALT &kp RGUI  &none
+        &none    &none     &none        &none       &none        &none     &trans                                                                  &trans   &none     &none     &none     &none     &none     &none
+        &none    &kp DQT   &kp LT       &kp GT      &kp SQT      &kp DOT   &trans                                                                  &trans   &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT  &kp PRCNT &none
+        &none    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH  &none                 &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL            &trans   &kp PIPE &kp COLON &kp LPAR  &kp RPAR  &kp QMARK  &none
+        &trans   &kp CARET &kp FSLH     &kp STAR    &kp BSLH     &kp GRAVE                                 &kp HOME &kp PG_UP                               &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC  &kp AT    &none
+        &none    &kp LGUI  &kp LALT     &kp LSHFT   &kp LCTRL                           &none     &none    &none    &none     &kp ENTER &kp SPACE                    &kp RCTRL &kp RSHFT &kp RALT  &kp RGUI  &none
       >;
     };
 
@@ -268,7 +277,7 @@
         &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                     &trans                 &none        &none        &none        &none &none &none
         &none &none        &none        &none        &none        &none        &bootloader                                                               &bootloader            &none        &none        &none        &none &none &none
         &none &none        &none        &none        &none        &none        &none                   &none &none &bt BT_CLR &none                      &rgb_ug RGB_MEFS_CMD 5 &none        &none        &none        &none &none &none
-        &none &none        &none        &none        &none        &none                                      &none &none                                                        &none        &none        &none        &none &none &none
+        &none &none        &none        &none        &macro_ver   &none                                      &none &none                                                        &none        &none        &none        &none &none &none
         &none &none        &none        &none        &none                                       &none &none &none &none      &bl BL_TOG &rgb_ug RGB_TOG                                     &bl BL_INC   &bl BL_DEC   &none &none &none
       >;
     };
