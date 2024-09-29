@@ -12,6 +12,26 @@
 #define MOD  6
 #define SWAPPER 7
 
+#define KEYS_L   0  1  2  3  4  5  6 \
+                14 15 16 17 18 19 20 \
+                28 29 30 31 32 33 34 \
+                46 47 48 49 50 51    \
+                60 61 62 63 64
+
+#define THUMBS_LEFT     35 36 \
+                           52 \
+                     65 66 67 \
+
+#define KEYS_R   7  8  9 10 11 12 13 \
+                21 22 23 24 25 26 27 \
+                39 40 41 42 43 44 45 \
+                   54 55 56 57 58 59 \
+                      71 72 73 74 75
+
+#define THUMBS_RIGHT 37 38    \
+                     53       \
+                     68 69 70 \
+
 #define RIGHT_HOME_ROW 42 43 44 45
 #define TMUX LA(SPACE)
 
@@ -82,7 +102,31 @@
           bindings = <&mo>, <&kp>;
       };
 
-      hmr: homerow_mod_right {
+      hml: homerow_mods_left {
+        compatible = "zmk,behavior-hold-tap";
+        #binding-cells = <2>;
+        flavor = "balanced";
+        tapping-term-ms = <280>;
+        quick-tap-ms = <175>;
+        require-prior-idle-ms = <150>;
+        bindings = <&kp>, <&kp>; 
+        hold-trigger-key-positions = <KEYS_R THUMBS_RIGHT>;
+        hold-trigger-on-release;
+      };
+
+      hmr: homerow_mods_right {
+        compatible = "zmk,behavior-hold-tap";
+        #binding-cells = <2>;
+        flavor = "balanced";
+        tapping-term-ms = <280>;
+        quick-tap-ms = <175>;
+        require-prior-idle-ms = <150>;
+        bindings = <&kp>, <&kp>; 
+        hold-trigger-key-positions = <KEYS_L THUMBS_LEFT>;
+        hold-trigger-on-release;
+      };
+
+      nhmr: navi_homerow_mod_right {
           compatible = "zmk,behavior-hold-tap";
           label = "HOMEROW_MOD_RIGHT";
           #binding-cells = <2>;
@@ -134,7 +178,7 @@
           compatible = "zmk,behavior-mod-morph";
           label = "NAVI_RIGHT";
           #binding-cells = <0>;
-          bindings = <&hmr NAVI_RIGHT SPACE>, <&kp UNDER>;
+          bindings = <&nhmr NAVI_RIGHT SPACE>, <&kp UNDER>;
           mods = <(MOD_LSFT|MOD_RSFT)>;
       };
 
@@ -196,9 +240,9 @@
       bindings = <
         &kp MINUS      &kp N1       &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                    &mo MOD &kp N6 &kp N7    &kp N8    &kp N9    &kp N0       &kp EQUAL
         &kp TAB        &kp Q        &kp W      &kp F     &kp P      &kp B  &none                                                                        &none   &kp J  &kp L     &kp U     &kp Y     &kp SEMI     &kp BSLH
-        &mtq LCTRL ESC &kp A        &kp R      &kp S     &kp T      &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
+        &mtq LCTRL ESC &hml LGUI A  &hml LALT R &hml LSHFT S &hml LCTRL T  &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
         &mt LSHFT TMUX &kp Z        &kp X      &kp C     &kp D      &kp V                                    &mo FUNC  &mo FUNC                                 &kp K  &kp H     &kp COMMA &kp DOT   &kp FSLH     &mt RSHFT TMUX
-	&mo SYMS       &kp KP_PLUS  &caps_word &kp GRAVE &kp MINUS                       &navi_left &mo SYMS &kp LALT  &kp RALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
+        &mo SYMS       &kp KP_PLUS  &caps_word &mtq LCTRL ESC &mt LSHFT TMUX                       &navi_left &mo SYMS &kp LALT  &kp RALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
       >;
     };
 
@@ -223,15 +267,15 @@
     // |          |        |        |        |         |       |            |                                             |      |       |       |      |       |     |     |
     // |          |        |        | LG(F)  | SWAPPER | GRAVE |            |                                             |      | TCOPY | PG_UP | UP   | PG_DN |     |     |
     // |          | LGUI   | LALT   | LSHFT  | LCTRL   |       | LG(LS(N4)) |      |       |       |       |       |      |      | BKSP  | LEFT  | DOWN | RIGHT | DEL |     |
-    // |          | LGUI+Z | LGUI+X | LGUI+C | LGUI+V  | TMUX  |                           |       |       |                     |       | HOME  | END  | BKSP  |     |     |
-    // |          |        |        |        | LGUI+TAB|                           | [NAV] |       |       |       |                     |       |      |       |     |     |
+    // |          | UNDO   | CUT    | COPY   | PASTE   | TMUX  |                           |       |       |                     | INS   | HOME  | END  | TAB   |     |     |
+    // |          |        |        |        | LGUI+TAB|                           | [NAV] |       |       |   _   |                     |       |      |       |     |     |
 
     navi_left {
       bindings = <
         &trans &trans    &trans    &trans     &trans     &trans    &trans                                                  &trans &trans   &trans    &trans   &trans    &trans  &trans
         &trans &trans    &trans    &kp LG(F)  &swapper   &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
         &trans &skq LGUI &skq LALT &skq LSHFT &skq LCTRL &trans    &kp LG(LS(N4))   &trans &trans &trans &trans            &trans &kp BSPC &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &trans
-        &trans &kp LG(Z) &kp LG(X) &kp LG(C)  &kp LG(V)  &kp TMUX                          &trans &trans                          &trans   &kp HOME  &kp END  &kp BSPC  &trans  &trans
+        &trans &kp LG(Z) &kp LG(X) &kp LG(C)  &kp LG(V)  &kp TMUX                          &trans &trans                          &kp INS  &kp TAB   &kp HOME &kp END   &trans  &trans
         &trans &trans    &trans    &trans     &kp LG(TAB)                    &trans &trans &trans &trans &trans &kp MINUS                  &trans    &trans   &trans    &trans  &trans
       >;
     };
@@ -263,6 +307,12 @@
       >;
     };
 
+    // ---------------------------------------------------------------------------------------------------------------------------------
+    // | F11 |  F1 |  F2 |  F3 |  F4 |  F5 |      |                                           |      | F6  | F7  | F8  | F9  | F10 | F12 |
+    // |     |  "  |  <  |  >  |  '  |  .  |      |                                           |      |  &  |  ~  |  [  |  ]  |  %  |     |
+    // |     |  !  |  -  |  +  |  =  |  #  |      |      |      |       |       |      |      |      |  |  |  :  |  (  |  )  |  ?  |     |
+    // |     |  ^  |  /  |  *  |  \  |  `  |                    |       |       |                    |  ~  |  $  |  {  |  }  |  @  |     |
+    // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
     fn {
       bindings = <
         &kp F11 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &tog NUMS                                       &mo MOD &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F12
@@ -273,6 +323,12 @@
       >;
     };
 
+    // ---------------------------------------------------------------------------------------------------------------------------------
+    // |     | BT0 | BT1 | BT2 | BT3 | BT4 |      |                                           | [MOD]|     |     |     |     |     |     | 
+    // |     |     |     |     |     |     |      |                                           |      |     |     |     |     |     |     |
+    // |     |     |     |     |     |     |      |      |      |       |       |      |      |      |     |     |     |     |     |     |
+    // |     |     |     |     |     |     |                    |       |       |                    |     |     |     |     |     |     |
+    // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
     mod {
       bindings = <
         &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                     &trans                 &none        &none        &none        &none &none &none
