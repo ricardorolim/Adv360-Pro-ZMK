@@ -240,7 +240,7 @@
       bindings = <
         &kp MINUS      &kp N1       &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                    &mo MOD &kp N6 &kp N7    &kp N8    &kp N9    &kp N0       &kp EQUAL
         &kp TAB        &kp Q        &kp W      &kp F     &kp P      &kp B  &none                                                                        &none   &kp J  &kp L     &kp U     &kp Y     &kp SEMI     &kp BSLH
-        &mtq LCTRL ESC &hml LGUI A  &hml LALT R &hml LSHFT S &hml LCTRL T  &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
+        &mtq LCTRL ESC &kp A        &kp R      &kp S     &kp T      &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
         &mt LSHFT TMUX &kp Z        &kp X      &kp C     &kp D      &kp V                                    &mo FUNC  &mo FUNC                                 &kp K  &kp H     &kp COMMA &kp DOT   &kp FSLH     &mt RSHFT TMUX
         &mo SYMS       &kp KP_PLUS  &caps_word &mtq LCTRL ESC &mt LSHFT TMUX                       &navi_left &mo SYMS &kp LALT  &kp RALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
       >;
@@ -287,6 +287,12 @@
     // |     |  ^  |  /  |  *  |  \  |  `  |                    |       |       |                    |  ~  |  $  |  {  |  }  |  @  |     |
     // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
 
+    // ---------------------------------------------------------------------------------------------------------------------------------
+    // |     |     |     |     |     |     |      |                                           |      |     |     |     |     |     |     |
+    // |     |     |     |     |     |     |      |                                           |      |  &  |  ~  |  [  |  ]  |  %  |     |
+    // |     |  !  |  -  |  +  |  =  |  #  |      |      |      |       |       |      |      |      |     |     |  (  |  )  |     |     |
+    // |     |  ^  |     |  *  |  -  |  `  |                    |       |       |                    |  ~  |  $  |  {  |  }  |  @  |     |
+    // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
     symbols {
       bindings = <
         &none    &none     &none        &none       &none        &none     &trans                                                                  &trans   &none     &none     &none     &none     &none     &none
