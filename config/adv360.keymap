@@ -4,13 +4,12 @@
 #include <dt-bindings/zmk/rgb.h>
 #include <dt-bindings/zmk/backlight.h>
 
-#define NAVI_RIGHT 1
-#define NAVI_LEFT 2
-#define SYMS 3
-#define NUMS 4
-#define FUNC 5
-#define MOD  6
-#define SWAPPER 7
+#define NAVI_LEFT 1
+#define SYMS 2
+#define NUMS 3
+#define FUNC 4
+#define MOD  5
+#define SWAPPER 6
 
 #define KEYS_L   0  1  2  3  4  5  6 \
                 14 15 16 17 18 19 20 \
@@ -162,7 +161,7 @@
           compatible = "zmk,behavior-mod-morph";
           label = "SPACE_UNDERLINE";
           #binding-cells = <0>;
-          bindings = <&kp SPACE>, <&kp LS(MINUS)>;
+          bindings = <&kp SPACE>, <&kp UNDER>;
           mods = <(MOD_LSFT)>;
       };
 
@@ -174,13 +173,13 @@
           mods = <(MOD_LSFT|MOD_RSFT)>;
       };
 
-      navi_right: navi_right {
-          compatible = "zmk,behavior-mod-morph";
-          label = "NAVI_RIGHT";
-          #binding-cells = <0>;
-          bindings = <&nhmr NAVI_RIGHT SPACE>, <&kp UNDER>;
-          mods = <(MOD_LSFT|MOD_RSFT)>;
-      };
+      // navi_right: navi_right {
+      //     compatible = "zmk,behavior-mod-morph";
+      //     label = "NAVI_RIGHT";
+      //     #binding-cells = <0>;
+      //     bindings = <&nhmr NAVI_RIGHT SPACE>, <&kp UNDER>;
+      //     mods = <(MOD_LSFT|MOD_RSFT)>;
+      // };
 
       skq: sticky_key_quick_release {
           compatible = "zmk,behavior-sticky-key";
@@ -229,43 +228,26 @@
     compatible = "zmk,keymap";
 
     // -----------------------------------------------------------------------------------------------------------------------------------------
-    // |  -       |  1  |  2  |  3  |  4  |  5  | NUMS |                                           | MOD  |  6  |  7  |  8  |  9  |  0  |  =   |
-    // |  TAB     |  Q  |  W  |  F  |  P  |  B  | NONE |                                           | NONE |  J  |  L  |  U  |  Y  |  :  |  \   |
-    // | ESC/CTRL |  A  |  R  |  S  |  T  |  G  | NONE |      | LGUI | LCRTL | RCTRL | RGUI |      | NONE |  M  |  N  |  E  |  I  |  O  |  "   |
-    // | SHFT     |  Z  |  X  |  C  |  D  |  V  |                    | FUNC  | FUNC  |                    |  K  |  H  |  ,  |  .  |  /  | SHFT |
-    // | SYMS     |  +  | CAPS|  `  |  -  |            | NAVI | SYMS | LALT  | RALT  | SYMS | NAVI |            |  =  |  [  |  ]  |  =  | SYMS |
+    // |  -       |  1  |  2  |  3  |  4  |  5  | NUMS |                                            | MOD  |  6  |  7  |  8  |  9  |  0  |  =   |
+    // |  TAB     |  Q  |  W  |  F  |  P  |  B  | NONE |                                            | NONE |  J  |  L  |  U  |  Y  |  :  |  \   |
+    // | ESC/CTRL |  A  |  R  |  S  |  T  |  G  | NONE |      | LGUI | LCRTL | RCTRL | RGUI |       | NONE |  M  |  N  |  E  |  I  |  O  |  "   |
+    // | SHFT     |  Z  |  X  |  C  |  D  |  V  |                    | FUNC  | FUNC  |                     |  K  |  H  |  ,  |  .  |  /  | SHFT |
+    // | SYMS     |  +  | CAPS|  `  |  -  |            | NAVI | SYMS | LALT  | RALT  | SYMS | SPC_UL|            |RCTRL|RSHFT|RALT |RGUI | SYMS |
     // -----------------------------------------------------------------------------------------------------------------------------------------
 
     default_layer {
       bindings = <
-        &kp MINUS      &kp N1       &kp N2     &kp N3    &kp N4     &kp N5 &tog NUMS                                                                    &mo MOD &kp N6 &kp N7    &kp N8    &kp N9    &kp N0       &kp EQUAL
-        &kp TAB        &kp Q        &kp W      &kp F     &kp P      &kp B  &none                                                                        &none   &kp J  &kp L     &kp U     &kp Y     &kp SEMI     &kp BSLH
-        &mtq LCTRL ESC &kp A        &kp R      &kp S     &kp T      &kp G  &none                   &kp LGUI  &kp LCTRL &kp RCTRL &kp RGUI               &none   &kp M  &kp N     &kp E     &kp I     &kp O        &hm RCTRL SQT
-        &mt LSHFT TMUX &kp Z        &kp X      &kp C     &kp D      &kp V                                    &mo FUNC  &mo FUNC                                 &kp K  &kp H     &kp COMMA &kp DOT   &kp FSLH     &mt RSHFT TMUX
-        &mo SYMS       &kp KP_PLUS  &caps_word &mtq LCTRL ESC &mt LSHFT TMUX                       &navi_left &mo SYMS &kp LALT  &kp RALT &lh SYMS ENTER &navi_right             &kp EQUAL &kp LBKT  &kp RBKT  &kp KP_EQUAL &mo SYMS
-      >;
-    };
-
-    // ---------------------------------------------------------------------------------------------------------------------------------
-    // |          |     |     |     |     |     |      |                                           |      |     |     |     |    |    |     |
-    // |          |     |     |     |     |     |      |                                           |      |     |     |     |    |    |     |
-    // |          |     |     |     |     |     |      |      |      |       |       |      |      |      |     |RCTRL|RSHFT|LALT|RGUI|     |
-    // |          |     |     |     |     |     |                    |       |       |                    |     |     |     |    |    |     |
-    // |          |     |     |     |     |                   |      |       |       |      |                   |     |     |    |    |     |
-
-    navi_right {
-      bindings = <
-        &trans &trans &trans &trans &trans &trans &trans                                           &trans &trans &trans     &trans     &trans    &trans    &trans
-        &trans &trans &trans &trans &trans &trans &trans                                           &trans &trans &trans     &trans     &trans    &trans    &trans
-        &trans &trans &trans &trans &trans &trans &trans        &trans &trans &trans &trans        &trans &trans &skq RCTRL &skq RSHFT &skq LALT &skq RGUI &trans
-        &trans &trans &trans &trans &trans &trans                      &trans &trans                      &trans &trans     &trans     &trans    &trans    &trans
-        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans               &trans     &trans     &trans    &trans    &trans
+        &kp MINUS      &kp N1       &kp N2     &kp N3         &kp N4         &kp N5 &tog NUMS                                                                       &mo MOD &kp N6 &kp N7    &kp N8     &kp N9    &kp N0   &kp EQUAL
+        &kp TAB        &kp Q        &kp W      &kp F          &kp P          &kp B  &none                                                                           &none   &kp J  &kp L     &kp U      &kp Y     &kp SEMI &kp BSLH
+        &mtq LCTRL ESC &kp A        &kp R      &kp S          &kp T          &kp G  &none                     &kp LGUI &kp LCTRL &kp RCTRL &kp RGUI                 &none   &kp M  &kp N     &kp E      &kp I     &kp O    &hm RCTRL SQT
+        &mt LSHFT TMUX &kp Z        &kp X      &kp C          &kp D          &kp V                                     &mo FUNC  &mo FUNC                                   &kp K  &kp H     &kp COMMA  &kp DOT   &kp FSLH &mt RSHFT TMUX
+        &mo SYMS       &kp KP_PLUS  &caps_word &mtq LCTRL ESC &mt LSHFT TMUX                       &navi_left &mo SYMS &kp LALT  &kp RALT  &lh SYMS ENTER &space_ul                &kp RCTRL &kp RSHIFT &kp RALT  &kp RGUI &mo SYMS
       >;
     };
 
     // --------------------------------------------------------------------------------------------------------------------------------
     // |          |        |        |        |         |       |            |                                             |      |       |       |      |       |     |     |
-    // |          |        |        | LG(F)  | SWAPPER | GRAVE |            |                                             |      | TCOPY | PG_UP | UP   | PG_DN |     |     |
+    // |          |        |        | LG(F)  |         | GRAVE |            |                                             |      | TCOPY | PG_UP | UP   | PG_DN |     |     |
     // |          | LGUI   | LALT   | LSHFT  | LCTRL   |       | LG(LS(N4)) |      |       |       |       |       |      |      | BKSP  | LEFT  | DOWN | RIGHT | DEL |     |
     // |          | UNDO   | CUT    | COPY   | PASTE   | TMUX  |                           |       |       |                     | INS   | HOME  | END  | TAB   |     |     |
     // |          |        |        |        | LGUI+TAB|                           | [NAV] |       |       |   _   |                     |       |      |       |     |     |
@@ -273,10 +255,10 @@
     navi_left {
       bindings = <
         &trans &trans    &trans    &trans     &trans     &trans    &trans                                                  &trans &trans   &trans    &trans   &trans    &trans  &trans
-        &trans &trans    &trans    &kp LG(F)  &swapper   &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
+        &trans &trans    &trans    &kp LG(F)  &trans     &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
         &trans &skq LGUI &skq LALT &skq LSHFT &skq LCTRL &trans    &kp LG(LS(N4))   &trans &trans &trans &trans            &trans &kp BSPC &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &trans
-        &trans &kp LG(Z) &kp LG(X) &kp LG(C)  &kp LG(V)  &kp TMUX                          &trans &trans                          &kp INS  &kp TAB   &kp HOME &kp END   &trans  &trans
-        &trans &trans    &trans    &trans     &kp LG(TAB)                    &trans &trans &trans &trans &trans &kp MINUS                  &trans    &trans   &trans    &trans  &trans
+        &trans &kp LC(Z) &kp LC(X) &kp LC(C)  &kp LC(V)  &kp TMUX                          &trans &trans                          &kp INS  &kp TAB   &kp HOME &kp END   &trans  &trans
+        &trans &trans    &trans    &trans     &kp LG(TAB)                    &trans &trans &trans &trans &trans &trans                     &trans    &trans   &trans    &trans  &trans
       >;
     };
 
@@ -287,12 +269,6 @@
     // |     |  ^  |  /  |  *  |  \  |  `  |                    |       |       |                    |  ~  |  $  |  {  |  }  |  @  |     |
     // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
 
-    // ---------------------------------------------------------------------------------------------------------------------------------
-    // |     |     |     |     |     |     |      |                                           |      |     |     |     |     |     |     |
-    // |     |     |     |     |     |     |      |                                           |      |  &  |  ~  |  [  |  ]  |  %  |     |
-    // |     |  !  |  -  |  +  |  =  |  #  |      |      |      |       |       |      |      |      |     |     |  (  |  )  |     |     |
-    // |     |  ^  |     |  *  |  -  |  `  |                    |       |       |                    |  ~  |  $  |  {  |  }  |  @  |     |
-    // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
     symbols {
       bindings = <
         &none    &none     &none        &none       &none        &none     &trans                                                                  &trans   &none     &none     &none     &none     &none     &none
@@ -321,20 +297,22 @@
     // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
     fn {
       bindings = <
-        &kp F11 &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &tog NUMS                                       &mo MOD &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F12
-        &trans &trans &trans &trans &trans &trans  &none                                           &none   &trans &trans &trans &trans &trans  &trans
-        &trans &trans &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &trans  &none        &trans &trans &trans &trans        &none   &trans &trans &trans &trans &trans  &trans
-        &trans &trans &trans &trans &trans &trans                      &trans &trans                       &trans &trans &trans &trans &trans  &trans
-        &trans &trans &trans &trans &trans               &trans &trans &trans &trans &trans &trans                &trans &trans &trans &trans  &trans
+        &kp F11  &kp F1   &kp F2     &kp F3       &kp F4       &kp F5 &tog NUMS                                                     &mo MOD &kp F6 &kp F7    &kp F8     &kp F9   &kp F10  &kp F12
+        &trans   &trans   &trans     &trans       &trans       &trans &none                                                         &none   &trans &trans    &trans     &trans   &trans   &trans
+        &trans   &trans   &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &trans &none         &trans &trans &trans &trans                     &none   &trans &trans    &trans     &trans   &trans   &trans
+        &trans   &trans   &trans     &trans       &trans       &trans                      &trans &trans                                    &trans &trans    &trans     &trans   &trans   &trans
+        &mo SYMS &kp LGUI &kp LALT   &kp LSHFT    &kp LCTRL                  &trans &trans &trans &trans &trans &trans                             &kp RCTRL  &kp RSHFT  &kp RALT &kp RGUI &mo SYMS
+        // &mo FUNC  &kp GRAVE &kp CAPS &kp LEFT &kp RIGHT                &kp BSPC &kp DEL   &kp END  &kp PG_DN &kp ENTER &kp KP_N0                &kp UP     &kp DOWN     &kp KP_DOT    &kp RBKT        &mo FUNC
       >;
     };
 
-    // ---------------------------------------------------------------------------------------------------------------------------------
-    // |     | BT0 | BT1 | BT2 | BT3 | BT4 |      |                                           | [MOD]|     |     |     |     |     |     | 
-    // |     |     |     |     |     |     |      |                                           |      |     |     |     |     |     |     |
-    // |     |     |     |     |     |     |      |      |      |       |       |      |      |      |     |     |     |     |     |     |
-    // |     |     |     |     |     |     |                    |       |       |                    |     |     |     |     |     |     |
-    // |     | LGUI| LALT|LSHFT|LCTRL|            |      |      | [SYMS]|       |      |      |            |RCTRL|RSHFT| RALT| RGUI|     |
+    // --------------------------------------------------------------------------------------------------------------------------------------
+    // |     | BT0 | BT1 | BT2 | BT3 | BT4 |      |                                            | [MOD]|     |      |      |     |     |     | 
+    // |     |     |     |     |     |     |[BOOT]|                                            | [BOOT]     |      |      |     |     |     |
+    // |     |     |     |     |     |     |      |      |      |       |       |      |       |      |     |      |      |     |     |     |
+    // |     |     |     |     |[VER]|     |                    |       |       |                     |     |      |      |     |     |     |
+    // |     |     |     |     |     |            |      |      |       |       |BT_TOG|RGB_TOG|            |BL_INC|BL_DEC|     |     |     |
+
     mod {
       bindings = <
         &none &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none                                                                     &trans                 &none        &none        &none        &none &none &none
