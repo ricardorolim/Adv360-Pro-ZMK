@@ -247,18 +247,18 @@
 
     // --------------------------------------------------------------------------------------------------------------------------------
     // |          |        |        |        |         |       |            |                                             |      |       |       |      |       |     |     |
-    // |          |        |        | LG(F)  |         | GRAVE |            |                                             |      | TCOPY | PG_UP | UP   | PG_DN |     |     |
+    // |          |        |        | LC(F)  |         | GRAVE |            |                                             |      | TCOPY | PG_UP | UP   | PG_DN |     |     |
     // |          | LGUI   | LALT   | LSHFT  | LCTRL   |       | LG(LS(N4)) |      |       |       |       |       |      |      | BKSP  | LEFT  | DOWN | RIGHT | DEL |     |
-    // |          | UNDO   | CUT    | COPY   | PASTE   | TMUX  |                           |       |       |                     | INS   | HOME  | END  | TAB   |     |     |
-    // |          |        |        |        | LGUI+TAB|                           | [NAV] |       |       |   _   |                     |       |      |       |     |     |
+    // |          | UNDO   | CUT    | COPY   | PASTE   | TMUX  |                           |       |       |                     | INS   | HOME  | TAB  | END   |     |     |
+    // |          |        |        |        |         |                           | [NAV] |       |       |   _   |                     |       |      |       |     |     |
 
     navi_left {
       bindings = <
         &trans &trans    &trans    &trans     &trans     &trans    &trans                                                  &trans &trans   &trans    &trans   &trans    &trans  &trans
-        &trans &trans    &trans    &kp LG(F)  &trans     &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
+        &trans &trans    &trans    &kp LC(F)  &trans     &kp GRAVE &trans                                                  &trans &tcopy   &kp PG_UP &kp UP   &kp PG_DN &trans  &trans
         &trans &skq LGUI &skq LALT &skq LSHFT &skq LCTRL &trans    &kp LG(LS(N4))   &trans &trans &trans &trans            &trans &kp BSPC &kp LEFT  &kp DOWN &kp RIGHT &kp DEL &trans
-        &trans &kp LC(Z) &kp LC(X) &kp LC(C)  &kp LC(V)  &kp TMUX                          &trans &trans                          &kp INS  &kp TAB   &kp HOME &kp END   &trans  &trans
-        &trans &trans    &trans    &trans     &kp LG(TAB)                    &trans &trans &trans &trans &trans &trans                     &trans    &trans   &trans    &trans  &trans
+        &trans &kp LC(Z) &kp LC(X) &kp LC(C)  &kp LC(V)  &kp TMUX                          &trans &trans                          &kp INS  &kp HOME  &kp TAB  &kp END   &trans  &trans
+        &trans &trans    &trans    &trans     &trans                         &trans &trans &trans &trans &trans &trans                     &trans    &trans   &trans    &trans  &trans
       >;
     };
 
@@ -273,9 +273,9 @@
       bindings = <
         &none    &none     &none        &none       &none        &none     &trans                                                                  &trans   &none     &none     &none     &none     &none     &none
         &none    &kp DQT   &kp LT       &kp GT      &kp SQT      &kp DOT   &trans                                                                  &trans   &kp AMPS  &kp TILDE &kp LBKT  &kp RBKT  &kp PRCNT &none
-        &trans    &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH  &none                 &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL            &trans   &kp PIPE &kp COLON &kp LPAR  &kp RPAR  &kp QMARK  &none
+        &trans   &kp EXCL  &kp KP_MINUS &kp KP_PLUS &kp KP_EQUAL &kp HASH  &none                 &kp LCTRL &kp LALT &kp LGUI  &kp RCTRL            &trans   &kp PIPE  &kp COLON &kp LPAR  &kp RPAR  &kp QMARK &none
         &trans   &kp CARET &kp FSLH     &kp STAR    &kp BSLH     &kp GRAVE                                 &kp HOME &kp PG_UP                               &kp TILDE &kp DLLR  &kp LBRC  &kp RBRC  &kp AT    &none
-        &none    &kp LGUI  &kp LALT     &kp LSHFT   &kp LCTRL                           &none     &none    &none    &none     &kp ENTER &kp SPACE                    &kp RCTRL &kp RSHFT &kp RALT  &kp RGUI  &none
+        &none    &kp LGUI  &kp LALT     &kp LSHFT   &kp LCTRL                           &none     &none    &none    &none     &kp ENTER &kp SPACE                     &kp RCTRL &kp RSHFT &kp RALT  &kp RGUI  &none
       >;
     };
 
